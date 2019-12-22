@@ -9,9 +9,9 @@ use Denismitr\LaraRabbit\Queue\Connectors\RabbitMQConnector;
 class QueueScaffoldCommand extends Command
 {
     protected $signature = 'rabbitmq:scaffold                          
-                           {queue}
-                           {exchange?}
-                           {routing-key?}
+                           {queue? : The name of the queue to declare}
+                           {exchange? : The name of exchange to create}
+                           {routing-key? : The name of the routing key to use in binding}
                            {connection=rabbitmq : The name of the queue connection to use}
                             ';
 
@@ -27,7 +27,7 @@ class QueueScaffoldCommand extends Command
 
         $queue = $connector->connect($config);
 
-        $queueName = $this->argument('queue');
+        $queueName = $this->argument('queue') ?: $config['queue'];
         $exchangeName = $this->argument('exchange') ?: $queueName;
         $routingKey = $this->argument('routing-key') ?: $queueName;
 
